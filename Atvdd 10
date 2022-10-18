@@ -1,0 +1,85 @@
+//Defina um ponteiro para uma struct capaz de armazenar dados sobre um livro.
+//O registro contém os seguintes dados: nome, ISBN, preco, avaliacao e editora. Usando este registro faça:
+//Uma função que aloque o(s) livro(s) e devolva um ponteiro para o bloco de livro(s). Obs: a função deve receber a quantidade de livros a ser alocada;
+//Uma função que leia do teclado os dados do livro (receba o livro como parâmetro);
+//Uma função que mostre os dados do livro lido.
+//Uma função que desaloque os dados do livro lido.
+//Inicialmente, a primeira leitura deve informar quantos livros serão inseridos. Em seguida, a leitura de cada livro deve seguir a mesma ordem dos campos acima descritos.
+//Ao final, apresente os dados do livro seguindo o formato exemplificado abaixo:
+//Nome: O Homem que Calculava
+//ISBN: 8501061964
+//Preço: R$ 34.90
+//Avaliação: 4,9
+//Editora: Record 
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct livro
+{
+char nome[21];
+int isbn;
+float preco;
+float avaliacao;
+char editora[21];
+}tlivro;
+
+
+int main(void) {
+
+  tlivro *livro;
+  int n;
+  scanf("%d", &n);
+  livro = aloca(n);
+  dados(n, livro);
+  exibe(n, livro);
+  desaloca(n, livro);
+    
+  return 0;
+}
+
+int *aloca(int n)
+{
+  int *m=NULL;
+  m = (int*)malloc(n*sizeof(int*));
+
+  return m;
+}
+
+void dados(int qntddLivro, tlivro *livro)
+{
+  int i;
+  for(i=1; i<=qntddLivro; i++)
+  {
+  scanf("%s", &livro->nome);
+  scanf("%d", &livro->isbn);
+  scanf("%f", &livro->preco);
+  scanf("%f", &livro->avaliacao);
+  scanf("%s", &livro->editora);
+  }
+}
+
+void exibe(int qntddLivro,tlivro *livro)
+{
+  int i;
+  for(i=1; i<=qntddLivro; i++)
+  {
+  printf("Nome: %s", livro->nome);
+  printf("ISBN: %d", livro->isbn);
+  printf("Preço: R$ %.2f", livro->preco);
+  printf("Avaliação: %.1f", livro->avaliacao);
+  printf("Editora: %.1f", livro->editora);
+  }
+}
+
+void* desaloca(int qntddLivro, tlivro *livro)
+{
+  int i;
+  for(i=1; i<=qntddLivro; i++)
+  {
+  free(livro);
+  }
+  free(livro);
+}
