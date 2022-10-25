@@ -12,74 +12,68 @@
 //Avaliação: 4,9
 //Editora: Record 
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 typedef struct livro
 {
-char nome[21];
-int isbn;
+char nome[50];
+char isbn[21];
 float preco;
 float avaliacao;
-char editora[21];
-}tlivro;
+char editora[50];
+}tlivro, *plivro;
 
-
-int main(void) {
-
-  tlivro *livro;
-  int n;
-  scanf("%d", &n);
-  livro = aloca(n);
-  dados(n, livro);
-  exibe(n, livro);
-  desaloca(n, livro);
-    
-  return 0;
-}
-
-int *aloca(int n)
+plivro aloca_livro(int n)
 {
-  int *m=NULL;
-  m = (int*)malloc(n*sizeof(int*));
-
-  return m;
+  if(n>0)
+  return (plivro)malloc(n*sizeof(tlivro));
+  if(n<0 || n==0)
+  printf("[Nenhum registro lido]");
+  return NULL;
 }
 
-void dados(int qntddLivro, tlivro *livro)
+void dados_livro(int qntddLivro, tlivro *livro)
 {
   int i;
-  for(i=1; i<=qntddLivro; i++)
+  for(i=0; i<qntddLivro; i++)
   {
-  scanf("%s", &livro->nome);
-  scanf("%d", &livro->isbn);
-  scanf("%f", &livro->preco);
-  scanf("%f", &livro->avaliacao);
-  scanf("%s", &livro->editora);
+  scanf(" %[^\n]", livro[i].nome);
+  scanf(" %[^\n]", livro[i].isbn);
+  scanf("%f", &livro[i].preco);
+  scanf("%f", &livro[i].avaliacao);
+  scanf(" %[^\n]", livro[i].editora);
   }
 }
 
 void exibe(int qntddLivro,tlivro *livro)
 {
   int i;
-  for(i=1; i<=qntddLivro; i++)
+  for(i=0; i<qntddLivro; i++)
   {
-  printf("Nome: %s", livro->nome);
-  printf("ISBN: %d", livro->isbn);
-  printf("Preço: R$ %.2f", livro->preco);
-  printf("Avaliação: %.1f", livro->avaliacao);
-  printf("Editora: %.1f", livro->editora);
+  printf("[Registro %d]\n", i+1);
+  printf("Nome: %s\n", livro[i].nome);
+  printf("ISBN: %s\n", livro[i].isbn);
+  printf("PreÃ§o: R$ %.2f\n", livro[i].preco);
+  printf("AvaliaÃ§Ã£o: %.1f\n", livro[i].avaliacao);
+  printf("Editora: %s\n", livro[i].editora);
   }
 }
 
-void* desaloca(int qntddLivro, tlivro *livro)
-{
-  int i;
-  for(i=1; i<=qntddLivro; i++)
-  {
+
+int main(void) {
+
+  setlocale(LC_ALL,"Portuguese");
+  tlivro *livro;
+  int n;
+  scanf("%d", &n);
+  livro = aloca_livro(n);
+  dados_livro(n, livro);
+  exibe(n, livro);
+
   free(livro);
-  }
-  free(livro);
+
+  return 0;
 }
